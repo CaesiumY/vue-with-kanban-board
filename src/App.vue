@@ -1,13 +1,18 @@
 <template>
   <div id="app">
-    코드 시작
+    <NavBar />
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import NavBar from "./components/NavBar";
+
 export default {
   name: "app",
+  components: {
+    NavBar
+  },
   data() {
     return {};
   }
