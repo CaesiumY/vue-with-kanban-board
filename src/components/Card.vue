@@ -2,7 +2,8 @@
   <div>
     Card
     <div>bid: {{ bid }}</div>
-    <div>cid: {{ cid }}</div>
+    <div v-if="isLoading">loading Card ...</div>
+    <div v-else>cid: {{ cid }}</div>
   </div>
 </template>
 
@@ -10,7 +11,9 @@
 export default {
   name: "card",
   data() {
-    return {};
+    return {
+      isLoading: true
+    };
   },
   computed: {
     cid() {
@@ -18,6 +21,23 @@ export default {
     },
     bid() {
       return this.$route.params.bid;
+    }
+  },
+  created() {
+    this.fetchData();
+  },
+  watch: {
+    $route: {
+      handler: "fetchData",
+      immediate: true
+    }
+  },
+  methods: {
+    fetchData() {
+      this.isLoading = true;
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 500);
     }
   }
 };
