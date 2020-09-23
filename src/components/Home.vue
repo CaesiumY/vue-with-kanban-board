@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -32,21 +34,11 @@ export default {
     fetchData() {
       this.isLoading = true;
 
-      const req = new XMLHttpRequest();
-
-      req.open("GET", "http://localhost:3000/health");
-
-      req.send();
-
-      req.addEventListener("load", () => {
-        this.apiResponse = {
-          status: req.status,
-          statusText: req.statusText,
-          response: req.response
-        };
-
-        this.isLoading = false;
-      });
+      axios
+        .get("http://localhost:3000/health")
+        .then(res => (this.apiResponse = res.data))
+        .catch(e => (this.apiResponse = e))
+        .finally(() => (this.isLoading = false));
     }
   }
 };
