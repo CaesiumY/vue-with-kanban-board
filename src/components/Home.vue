@@ -3,7 +3,7 @@
     Home
 
     <div v-if="isLoading">Loading ...</div>
-    <div v-else>Api Response: {{ apiResponse }}</div>
+    <div v-else>Api Response: {{ boards }}</div>
 
     <div>
       Board List
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       isLoading: true,
-      apiResponse: ""
+      boards: ""
     };
   },
   created() {
@@ -35,9 +35,9 @@ export default {
       this.isLoading = true;
 
       axios
-        .get("http://localhost:3000/health")
-        .then(res => (this.apiResponse = res.data))
-        .catch(e => (this.apiResponse = e))
+        .get("http://localhost:3000/boards")
+        .then(res => (this.boards = res.data))
+        .catch(e => this.$router.replace("/login"))
         .finally(() => (this.isLoading = false));
     }
   }
