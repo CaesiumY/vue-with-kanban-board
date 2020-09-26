@@ -7,6 +7,7 @@
         <input
           type="text"
           name="email"
+          id="email"
           class="form-control"
           v-model="email"
           autofocus
@@ -17,6 +18,7 @@
         <label for="password">Password</label>
         <input
           type="password"
+          id="password"
           name="password"
           class="form-control"
           v-model="password"
@@ -38,13 +40,19 @@
 </template>
 
 <script>
+import { auth, setAuthInHeader, AUTH_TOKEN } from "../api";
+
 export default {
   data() {
     return {
       email: "",
       password: "",
-      error: ""
+      error: "",
+      rPath: ""
     };
+  },
+  created() {
+    this.rPath = this.$route.query.rPath || "/";
   },
 
   computed: {
@@ -55,7 +63,15 @@ export default {
 
   methods: {
     onSubmit() {
-      console.log(this.email, this.password);
+      auth
+        .login(this.email, this.password)
+        .then(res => {
+          const authToken = res.accessToken;
+          localStorage.setItem(AUTH_TOKEN, authToken);
+          setAuthInHeader(authToken);
+          this.$router.push(this.rPath);
+        })
+        .catch(e => (this.error = e.data.error));
     }
   }
 };

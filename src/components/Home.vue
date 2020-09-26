@@ -3,7 +3,12 @@
     Home
 
     <div v-if="isLoading">Loading ...</div>
-    <div v-else>Api Response: {{ boards }}</div>
+    <div v-else>
+      Api Response:
+      <div v-for="b in boards" :key="b.id">
+        <pre>{{ b }}</pre>
+      </div>
+    </div>
 
     <div>
       Board List

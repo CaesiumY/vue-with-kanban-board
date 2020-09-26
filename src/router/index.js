@@ -7,10 +7,12 @@ import Board from "../components/Board.vue";
 import Card from "../components/Card.vue";
 import NotFound from "../components/NotFound.vue";
 
+import { AUTH_TOKEN } from "../api";
+
 Vue.use(VueRouter);
 
 const getAuth = (to, from, next) => {
-  const isAuth = localStorage.getItem("token");
+  const isAuth = localStorage.getItem(AUTH_TOKEN);
   const loginPath = `/login?rPath=${encodeURI(to.path)}`;
 
   isAuth ? next() : next(loginPath);
