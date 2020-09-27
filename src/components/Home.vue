@@ -20,18 +20,24 @@
         </a>
       </div>
     </div>
+    <AddBoard v-if="isAddBoardShow" @close="isAddBoardShow = false" />
   </div>
 </template>
 
 <script>
 import { board } from "../api";
+import AddBoard from "./AddBoard";
 
 export default {
+  components: {
+    AddBoard
+  },
   data() {
     return {
       isLoading: true,
       boards: [],
-      error: ""
+      error: "",
+      isAddBoardShow: false
     };
   },
   created() {
@@ -53,7 +59,7 @@ export default {
         .finally(() => (this.isLoading = false));
     },
     addBoard() {
-      console.log("add board()");
+      this.isAddBoardShow = true;
     }
   }
 };
@@ -111,5 +117,6 @@ export default {
   width: inherit;
   color: #888;
   font-weight: 700;
+  cursor: pointer;
 }
 </style>
