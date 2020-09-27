@@ -15,12 +15,16 @@
       </div>
 
       <div class="board-item board-item-new">
-        <a class="new-board-btn" @click.prevent="addBoard">
+        <a class="new-board-btn" @click.prevent="showAddBoard">
           Create new board...
         </a>
       </div>
     </div>
-    <AddBoard v-if="isAddBoardShow" @close="isAddBoardShow = false" />
+    <AddBoard
+      v-if="isAddBoardShow"
+      @close="isAddBoardShow = false"
+      @submit="onAddBoard"
+    />
   </div>
 </template>
 
@@ -58,8 +62,16 @@ export default {
         .then(res => (this.boards = res.list))
         .finally(() => (this.isLoading = false));
     },
-    addBoard() {
+    showAddBoard() {
       this.isAddBoardShow = true;
+    },
+    onAddBoard(title) {
+      const { create } = board;
+
+      create(title).then(res => {
+        console.log("res", res);
+        this.fetchData();
+      });
     }
   }
 };
