@@ -48,11 +48,6 @@ export default {
   },
   mounted() {
     this.$refs.input.focus();
-    window.addEventListener("keyup", event => {
-      if (event.keyCode === 27) {
-        this.close();
-      }
-    });
   },
   methods: {
     close() {

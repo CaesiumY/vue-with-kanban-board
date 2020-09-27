@@ -31,10 +31,12 @@
 
 <script>
 export default {
-  methods: {
-    test() {
-      console.log("test");
-    }
+  mounted() {
+    window.addEventListener("keyup", event => {
+      if (event.keyCode === 27) {
+        this.$emit("close");
+      }
+    });
   }
 };
 </script>
