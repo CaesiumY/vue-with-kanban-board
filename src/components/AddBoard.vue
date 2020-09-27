@@ -1,5 +1,5 @@
 <template>
-  <Modal>
+  <Modal @close="close">
     <div slot="header">
       <h2>
         Create new board
@@ -48,6 +48,11 @@ export default {
   },
   mounted() {
     this.$refs.input.focus();
+    window.addEventListener("keyup", event => {
+      if (event.keyCode === 27) {
+        this.close();
+      }
+    });
   },
   methods: {
     close() {
