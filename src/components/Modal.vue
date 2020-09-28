@@ -81,6 +81,8 @@ export default {
 
 .modal-default-button {
   float: right;
+  text-decoration: none;
+  /* color: #999; */
 }
 
 /*

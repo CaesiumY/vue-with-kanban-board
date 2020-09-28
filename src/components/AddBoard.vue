@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 import Modal from "./Modal";
 export default {
   components: {
@@ -50,8 +51,9 @@ export default {
     this.$refs.input.focus();
   },
   methods: {
+    ...mapMutations(["SET_ADD_BOARD_SHOW"]),
     close() {
-      this.$emit("close");
+      this.SET_ADD_BOARD_SHOW(false);
     },
     addBoard() {
       this.close();
@@ -62,7 +64,7 @@ export default {
 </script>
 
 <style>
-a {
-  text-decoration: none;
+.modal-default-button {
+  color: red;
 }
 </style>

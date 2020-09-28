@@ -31,7 +31,7 @@
 <script>
 import { board } from "../api";
 import AddBoard from "./AddBoard";
-import { mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   components: {
@@ -56,6 +56,7 @@ export default {
     });
   },
   methods: {
+    ...mapMutations(["SET_ADD_BOARD_SHOW"]),
     fetchData() {
       const { fetch } = board;
 
@@ -66,7 +67,7 @@ export default {
         .finally(() => (this.isLoading = false));
     },
     showAddBoard() {
-      this.isAddBoardShow = true;
+      this.SET_ADD_BOARD_SHOW(true);
     },
     onAddBoard(title) {
       const { create } = board;
@@ -91,10 +92,13 @@ export default {
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .board-item {
-  width: 23%;
+  width: 18%;
   height: 100px;
   margin: 0 2% 20px 0;
   border-radius: 3px;
