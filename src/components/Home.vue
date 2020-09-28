@@ -23,7 +23,7 @@
     <AddBoard
       v-if="isAddBoardShow"
       @close="isAddBoardShow = false"
-      @submit="onAddBoard"
+      @getData="fetchData"
     />
   </div>
 </template>

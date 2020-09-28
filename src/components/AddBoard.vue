@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 import Modal from "./Modal";
 export default {
   components: {
@@ -52,12 +52,15 @@ export default {
   },
   methods: {
     ...mapMutations(["SET_ADD_BOARD_SHOW"]),
+    ...mapActions(["ADD_BOARD"]),
     close() {
       this.SET_ADD_BOARD_SHOW(false);
     },
     addBoard() {
       this.close();
-      this.$emit("submit", this.input);
+      // this.$emit("submit", this.input);
+      this.ADD_BOARD({ title: this.input });
+      this.$emit("getData");
     }
   }
 };
