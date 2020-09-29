@@ -22,29 +22,31 @@ const store = new Vuex.Store({
     SET_BOARDS(state, payload) {
       state.boards = payload;
     },
-    SET_TOKEN(state, token) {
+    LOGIN(state, token) {
+      if (!token) return;
       state.token = token;
       localStorage.setItem(AUTH_TOKEN, token);
       setAuthInHeader(token);
-    },
-    LOGIN(state, token) {
-      if (!token) return;
-      store.commit("SET_TOKEN", token);
+
       console.log("login");
     },
-    LOGOUT() {
-      store.commit("SET_TOKEN", null);
+    LOGOUT(state) {
+      state.token = null;
+      localStorage.removeItem(AUTH_TOKEN);
+      setAuthInHeader(null);
     }
   },
   actions: {
     ADD_BOARD(_, { title }) {
-      board.create(title);
+      return board.create(title);
     },
     FETCH_BOARDS({ commit }) {
-      board.fetch().then(res => commit("SET_BOARDS", res.list));
+      return board.fetch().then(res => commit("SET_BOARDS", res.list));
     },
     SET_LOGIN({ commit }, { email, password }) {
-      auth.login(email, password).then(res => commit("LOGIN", res.accessToken));
+      return auth
+        .login(email, password)
+        .then(res => commit("LOGIN", res.accessToken));
     }
   }
 });

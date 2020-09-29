@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { auth, setAuthInHeader, AUTH_TOKEN } from "../api";
+import { mapActions, mapMutations } from "vuex";
 
 export default {
   data() {
@@ -62,15 +62,10 @@ export default {
   },
 
   methods: {
+    ...mapActions(["SET_LOGIN"]),
     onSubmit() {
-      auth
-        .login(this.email, this.password)
-        .then(res => {
-          const authToken = res.accessToken;
-          localStorage.setItem(AUTH_TOKEN, authToken);
-          setAuthInHeader(authToken);
-          this.$router.push(this.rPath);
-        })
+      this.SET_LOGIN({ email: this.email, password: this.password })
+        .then(res => this.$router.push(this.rPath))
         .catch(e => (this.error = e.data.error));
     }
   }

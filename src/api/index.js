@@ -29,9 +29,6 @@ export const setAuthInHeader = token => {
     : null;
 };
 
-const localAuthToken = localStorage.getItem(AUTH_TOKEN);
-if (localAuthToken) setAuthInHeader(localAuthToken);
-
 export const board = {
   fetch() {
     return request("get", "/boards");
