@@ -20,18 +20,14 @@
         </a>
       </div>
     </div>
-    <AddBoard
-      v-if="isAddBoardShow"
-      @close="isAddBoardShow = false"
-      @getData="fetchData"
-    />
+    <AddBoard v-if="isAddBoardShow" />
   </div>
 </template>
 
 <script>
 import { board } from "../api";
 import AddBoard from "./AddBoard";
-import { mapMutations, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 
 export default {
   components: {
@@ -40,12 +36,11 @@ export default {
   data() {
     return {
       isLoading: true,
-      boards: [],
       error: ""
     };
   },
   computed: {
-    ...mapState(["isAddBoardShow"])
+    ...mapState(["isAddBoardShow", "boards"])
   },
   created() {
     this.fetchData();
@@ -57,25 +52,13 @@ export default {
   },
   methods: {
     ...mapMutations(["SET_ADD_BOARD_SHOW"]),
+    ...mapActions(["FETCH_BOARDS"]),
     fetchData() {
-      const { fetch } = board;
-
       this.isLoading = true;
-
-      fetch()
-        .then(res => (this.boards = res.list))
-        .finally(() => (this.isLoading = false));
+      this.FETCH_BOARDS().finally(() => (this.isLoading = false));
     },
     showAddBoard() {
       this.SET_ADD_BOARD_SHOW(true);
-    },
-    onAddBoard(title) {
-      const { create } = board;
-
-      create(title).then(res => {
-        console.log("res", res);
-        this.fetchData();
-      });
     }
   }
 };

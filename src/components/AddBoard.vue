@@ -52,15 +52,13 @@ export default {
   },
   methods: {
     ...mapMutations(["SET_ADD_BOARD_SHOW"]),
-    ...mapActions(["ADD_BOARD"]),
+    ...mapActions(["ADD_BOARD", "FETCH_BOARDS"]),
     close() {
       this.SET_ADD_BOARD_SHOW(false);
     },
     addBoard() {
       this.close();
-      // this.$emit("submit", this.input);
-      this.ADD_BOARD({ title: this.input });
-      this.$emit("getData");
+      this.ADD_BOARD({ title: this.input }).then(() => this.FETCH_BOARDS());
     }
   }
 };
