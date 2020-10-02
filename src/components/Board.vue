@@ -5,6 +5,18 @@
         <div class="board-header">
           <span class="board-title">{{ board.title }}</span>
         </div>
+
+        <div class="list-section-wrapper">
+          <div class="list-section">
+            <div
+              class="list-wrapper"
+              v-for="list in board.lists"
+              :key="list.pos"
+            >
+              <List :data="list" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -12,8 +24,13 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import List from "./List";
+
 export default {
   name: "board",
+  components: {
+    List
+  },
   data() {
     return {
       bid: 0,
