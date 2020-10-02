@@ -9,6 +9,10 @@
         {{ bid }}
       </div>
 
+      <pre>
+        {{ board }}
+      </pre>
+
       <router-link :to="`/board/${bid}/card/1`">
         Card 1
       </router-link>
@@ -23,6 +27,7 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
   name: "board",
   data() {
@@ -31,17 +36,23 @@ export default {
       isLoading: true
     };
   },
-
+  computed: {
+    ...mapState({
+      board: "board"
+    })
+  },
   created() {
     this.fetchData();
   },
   methods: {
+    ...mapActions({
+      FETCH_BOARD: "FETCH_BOARD"
+    }),
     fetchData() {
       this.isLoading = true;
-      setTimeout(() => {
-        this.isLoading = false;
-        this.bid = this.$route.params.bid;
-      }, 500);
+      this.bid = this.$route.params.bid;
+
+      this.FETCH_BOARD({ id: this.bid }).then(() => (this.isLoading = false));
     }
   }
 };

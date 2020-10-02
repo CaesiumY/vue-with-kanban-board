@@ -7,6 +7,9 @@ const mutations = {
   SET_BOARDS(state, payload) {
     state.boards = payload;
   },
+  SET_BOARD(state, payload) {
+    state.board = payload;
+  },
   LOGIN(state, token) {
     if (!token) return;
     state.token = token;
