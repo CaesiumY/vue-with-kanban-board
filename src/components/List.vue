@@ -3,12 +3,39 @@
     <div class="list-header">
       <div class="list-header-title">{{ data.title }}</div>
     </div>
+
+    <div v-if="isAddCardShow">
+      <AddCard @close="close" />
+    </div>
+    <div v-else>
+      <a href="" class="add-card-btn" @click.prevent.stop="open">
+        Add a Card...
+      </a>
+    </div>
   </div>
 </template>
 
 <script>
+import AddCard from "./AddCard";
+
 export default {
-  props: ["data"]
+  components: {
+    AddCard
+  },
+  props: ["data"],
+  data() {
+    return {
+      isAddCardShow: false
+    };
+  },
+  methods: {
+    close() {
+      this.isAddCardShow = false;
+    },
+    open() {
+      this.isAddCardShow = true;
+    }
+  }
 };
 </script>
 
@@ -68,10 +95,12 @@ export default {
   padding: 8px 10px;
   color: #8c8c8c;
   text-decoration: none;
+  font-size: 15px;
 }
 
 .add-card-btn:hover,
 .add-card-btn:focus {
   background-color: rgba(0, 0, 0, 0.1);
+  text-decoration: underline;
 }
 </style>
