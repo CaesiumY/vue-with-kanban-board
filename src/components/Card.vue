@@ -1,14 +1,19 @@
 <template>
-  <div>
+  <Modal>
     Card
     <div>bid: {{ bid }}</div>
     <div v-if="isLoading">loading Card ...</div>
     <div v-else>cid: {{ cid }}</div>
-  </div>
+  </Modal>
 </template>
 
 <script>
+import Modal from "./Modal";
+
 export default {
+  components: {
+    Modal
+  },
   name: "card",
   data() {
     return {
