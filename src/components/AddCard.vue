@@ -7,6 +7,7 @@
         ref="inputText"
         placeholder="Enter a title for this Card..."
         v-model="inputTitle"
+        @keyup.esc="close"
       />
       <div>
         <button
@@ -24,7 +25,9 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
+  props: ["listId"],
   data() {
     return {
       inputTitle: ""
@@ -39,15 +42,19 @@ export default {
     this.$refs.inputText.focus();
   },
   methods: {
+    ...mapActions({
+      ADD_CARD: "ADD_CARD"
+    }),
     close() {
       this.$emit("close");
     },
     onSubmit() {
-      console.log("submit");
-      if (this.inputTitle) {
-        // 인풋이 존재할 때만 제출
-        console.log("input:", this.inputTitle);
-      }
+      const { inputTitle, listId } = this;
+      if (!inputTitle) return;
+
+      this.ADD_CARD({ title: inputTitle, listId }).finally(
+        () => (this.inputTitle = "")
+      );
       this.close();
     }
   }
