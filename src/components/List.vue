@@ -4,6 +4,10 @@
       <div class="list-header-title">{{ data.title }}</div>
     </div>
 
+    <div class="card-list">
+      <CardItem v-for="card in data.cards" :key="card.id" :data="card" />
+    </div>
+
     <div v-if="isAddCardShow">
       <AddCard :listId="data.id" @close="close" />
     </div>
@@ -17,10 +21,12 @@
 
 <script>
 import AddCard from "./AddCard";
+import CardItem from "./CardItem";
 
 export default {
   components: {
-    AddCard
+    AddCard,
+    CardItem
   },
   props: ["data"],
   data() {
@@ -54,7 +60,7 @@ export default {
 .list-header {
   flex: 0 0 auto;
   height: 30px;
-  padding: 10px 8px 8px;
+  padding: 10px 8px 0px;
   position: relative;
 }
 
