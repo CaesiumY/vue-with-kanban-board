@@ -19,6 +19,11 @@ const actions = {
     return card.create(title, listId, pos).then(res => {
       dispatch("FETCH_BOARD", { id: state.board.id });
     });
+  },
+  FETCH_CARD({ commit }, { id }) {
+    return card.fetch(id).then(data => {
+      commit("SET_CARD", data.item);
+    });
   }
 };
 

@@ -24,7 +24,6 @@ export default {
   background-color: #fff;
   border-radius: 3px;
   margin: 8px;
-  padding: 6px 10px 8px;
   box-shadow: 0 2px 0 #ccc;
   position: relative;
 }
@@ -36,6 +35,7 @@ export default {
   white-space: normal;
   overflow: hidden;
   display: block;
+  padding: 6px 10px 8px;
 }
 
 .card-item:hover,

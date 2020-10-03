@@ -1,15 +1,6 @@
 import { AUTH_TOKEN, setAuthInHeader } from "../api";
 
 const mutations = {
-  SET_ADD_BOARD_SHOW(state, payload) {
-    state.isAddBoardShow = payload;
-  },
-  SET_BOARDS(state, payload) {
-    state.boards = payload;
-  },
-  SET_BOARD(state, payload) {
-    state.board = payload;
-  },
   LOGIN(state, token) {
     if (!token) return;
     state.token = token;
@@ -22,6 +13,18 @@ const mutations = {
     state.token = null;
     localStorage.removeItem(AUTH_TOKEN);
     setAuthInHeader(null);
+  },
+  SET_ADD_BOARD_SHOW(state, payload) {
+    state.isAddBoardShow = payload;
+  },
+  SET_BOARDS(state, payload) {
+    state.boards = payload;
+  },
+  SET_BOARD(state, payload) {
+    state.board = payload;
+  },
+  SET_CARD(state, payload) {
+    state.card = payload;
   }
 };
 
