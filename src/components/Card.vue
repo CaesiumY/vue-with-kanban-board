@@ -2,7 +2,15 @@
   <Modal class="modal-card" @close="onClose">
     <div class="modal-card-header" slot="header">
       <div class="modal-card-header-title">
-        <input type="text" class="form-control" :value="card.title" readonly />
+        <input
+          type="text"
+          class="form-control"
+          v-model="card.title"
+          :readonly="!isInputTitle"
+          @click="isInputTitle = true"
+          @blur="onBlurTitle"
+          ref="inputTitle"
+        />
       </div>
       <a href="" class="modal-close-btn" @click.prevent="onClose">&times;</a>
     </div>
@@ -13,7 +21,10 @@
         cols="30"
         rows="3"
         placeholder="Add a more detailed Description..."
-        readonly
+        :readonly="!isInputDesc"
+        @click="isInputDesc = true"
+        @blur="onBlurDesc"
+        ref="inputDesc"
         v-model="card.description"
       ></textarea>
     </div>
@@ -30,6 +41,12 @@ export default {
     Modal
   },
   name: "card",
+  data() {
+    return {
+      isInputTitle: false,
+      isInputDesc: false
+    };
+  },
   computed: {
     ...mapState({
       board: "board",
@@ -41,11 +58,28 @@ export default {
   },
   methods: {
     ...mapActions({
-      FETCH_CARD: "FETCH_CARD"
+      FETCH_CARD: "FETCH_CARD",
+      UPDATE_CARD: "UPDATE_CARD"
     }),
     onClose() {
       console.log("close");
       this.$router.push(`/board/${this.board.id}`);
+    },
+    onBlurTitle() {
+      this.isInputTitle = false;
+
+      const title = this.$refs.inputTitle.value.trim();
+      if (!title) return;
+
+      this.UPDATE_CARD({ id: this.card.id, title });
+    },
+    onBlurDesc() {
+      this.isInputDesc = false;
+
+      const description = this.$refs.inputDesc.value.trim();
+      if (!description) return;
+
+      this.UPDATE_CARD({ id: this.card.id, description });
     }
   }
 };

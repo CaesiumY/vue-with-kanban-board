@@ -24,6 +24,11 @@ const actions = {
     return card.fetch(id).then(data => {
       commit("SET_CARD", data.item);
     });
+  },
+  UPDATE_CARD({ dispatch, state }, { id, title, description, listId, pos }) {
+    return card
+      .update(id, { title, description, listId, pos })
+      .then(() => dispatch("FETCH_BOARD", { id: state.board.id }));
   }
 };
 
