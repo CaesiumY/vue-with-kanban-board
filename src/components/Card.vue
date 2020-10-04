@@ -62,7 +62,6 @@ export default {
       UPDATE_CARD: "UPDATE_CARD"
     }),
     onClose() {
-      console.log("close");
       this.$router.push(`/board/${this.board.id}`);
     },
     onBlurTitle() {

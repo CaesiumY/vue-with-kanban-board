@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   props: ["listId"],
   data() {
@@ -34,6 +34,9 @@ export default {
     };
   },
   computed: {
+    ...mapState({
+      list: state => state.board.lists
+    }),
     isInvalid() {
       return !this.inputTitle.trim();
     }
@@ -48,13 +51,26 @@ export default {
     close() {
       this.$emit("close");
     },
+    createNewCardPos() {
+      const currentList = this.list.filter(item => item.id === this.listId)[0];
+      if (!currentList) return 65535;
+
+      const { cards } = currentList;
+
+      if (cards.length <= 0) return 65535;
+
+      return cards[cards.length - 1].pos * 2;
+    },
     onSubmit() {
       const { inputTitle, listId } = this;
       if (!inputTitle) return;
+      const pos = this.createNewCardPos();
 
-      this.ADD_CARD({ title: inputTitle, listId }).finally(
-        () => (this.inputTitle = "")
-      );
+      this.ADD_CARD({
+        title: inputTitle,
+        listId,
+        pos
+      }).finally(() => (this.inputTitle = ""));
       this.close();
     }
   }
