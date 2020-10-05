@@ -4,17 +4,32 @@
       <div>{{ data.title }}</div>
       <div class="card-item-meta" v-if="data.description">&equiv;</div>
     </router-link>
+    <a href="" class="delete-card-btn" @click.prevent="onDeleteCard">&times;</a>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   props: ["data"],
   computed: {
     ...mapState({
       boardId: state => state.board.id
     })
+  },
+  methods: {
+    ...mapActions({
+      DELETE_CARD: "DELETE_CARD"
+    }),
+    onDeleteCard() {
+      if (
+        window.confirm(
+          `Are you sure to Delete this Card? < ${this.data.title} >`
+        )
+      ) {
+        this.DELETE_CARD({ id: this.data.id });
+      }
+    }
   }
 };
 </script>
@@ -34,8 +49,11 @@ export default {
   word-wrap: break-word;
   white-space: normal;
   overflow: hidden;
-  display: block;
   padding: 6px 10px 8px;
+}
+
+.card-item a:first-child {
+  display: block;
 }
 
 .card-item:hover,
@@ -50,11 +68,20 @@ export default {
 }
 
 .delete-card-btn {
+  display: none;
   position: absolute;
-  right: 10px;
-  top: 4px;
+  right: 0px;
+  top: -5px;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 22px;
   color: #aaa;
+}
+
+.card-item:hover .delete-card-btn {
+  display: block;
+}
+
+.delete-card-btn:hover {
+  color: #000;
 }
 </style>
