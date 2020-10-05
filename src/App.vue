@@ -12,9 +12,6 @@ export default {
   name: "app",
   components: {
     NavBar
-  },
-  data() {
-    return {};
   }
 };
 </script>

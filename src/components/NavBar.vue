@@ -1,7 +1,7 @@
 <template>
   <nav class="header">
     <div class="header-logo">
-      <router-link to="/">{{ isAuth }}</router-link>
+      <router-link to="/">Home</router-link>
     </div>
 
     <div class="header-auth">
@@ -12,24 +12,28 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapState } from "vuex";
 import { AUTH_TOKEN, setAuthInHeader } from "../api";
 
 export default {
   name: "navBar",
-
-  data() {
-    return {};
-  },
-
   computed: {
+    ...mapState({
+      navColor: "navColor"
+    }),
     ...mapGetters(["isAuth"])
+  },
+  mounted() {
+    this.setTheme();
   },
   methods: {
     ...mapMutations(["LOGOUT"]),
     logout() {
       this.LOGOUT();
       this.$router.push("/login");
+    },
+    setTheme() {
+      this.$el.style.backgroundColor = this.navColor;
     }
   }
 };

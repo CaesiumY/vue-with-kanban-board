@@ -77,11 +77,13 @@ export default {
   color: #aaa;
 }
 
-.card-item:hover .delete-card-btn {
+.card-item:hover .delete-card-btn,
+.card-item:focus .delete-card-btn {
   display: block;
 }
 
-.delete-card-btn:hover {
+.delete-card-btn:hover,
+.delete-card-btn:focus {
   color: #000;
 }
 </style>

@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 import List from "./List";
 import dragger from "../utils/dragger";
 
@@ -42,25 +42,35 @@ export default {
   },
   computed: {
     ...mapState({
-      board: "board"
+      board: "board",
+      bodyColor: "bodyColor"
     })
   },
   created() {
-    this.fetchData();
+    this.fetchData().then(() => {
+      this.setBodyTheme(this.board.bgColor);
+    });
   },
   updated() {
     this.setCardDraggable();
   },
   methods: {
+    ...mapMutations({
+      SET_THEME: "SET_THEME"
+    }),
     ...mapActions({
       FETCH_BOARD: "FETCH_BOARD",
       UPDATE_CARD: "UPDATE_CARD"
     }),
+    setBodyTheme(color) {
+      this.SET_THEME(color);
+      document.querySelector("body").style.backgroundColor = color;
+    },
     fetchData() {
       this.isLoading = true;
       this.bid = this.$route.params.bid;
 
-      this.FETCH_BOARD({ id: this.bid }).then(() => {
+      return this.FETCH_BOARD({ id: this.bid }).then(() => {
         this.isLoading = false;
         console.log("board", this.board);
       });
@@ -97,6 +107,9 @@ export default {
         this.UPDATE_CARD(targetCard);
       });
     }
+  },
+  beforeDestroy() {
+    this.setBodyTheme("#fff");
   }
 };
 </script>
