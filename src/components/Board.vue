@@ -26,8 +26,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import List from "./List";
-import dragula from "dragula";
-import "dragula/dist/dragula.min.css";
+import dragger from "../utils/dragger";
 
 export default {
   name: "board",
@@ -50,37 +49,7 @@ export default {
     this.fetchData();
   },
   updated() {
-    if (this.dragulaCard) this.dragulaCard.destroy();
-    this.dragulaCard = dragula([
-      ...Array.from(this.$el.querySelectorAll(".card-list")) // 해당 리스트의 아이템을 드래그 가능
-    ]).on("drop", (el, target, source, sibling) => {
-      // 이벤트 리스너 등록( el은 드래그하는 요소, target은 위에서 등록한 리스트)
-      const targetCard = {
-        id: el.dataset.cardId * 1,
-        pos: 65535
-      }; // api업데이트시 쓰일 객체 생성
-
-      // 계산에 사용할 앞과 뒤의 카드 선언
-      let prevCard = null;
-      let nextCard = null;
-
-      target.querySelectorAll(".card-item").forEach((item, index, arr) => {
-        // 리스트의 아이템들을 순환
-        if (item.dataset.cardId * 1 === targetCard.id) {
-          // 현재 드래그하는 카드일 경우
-          prevCard = index > 0 ? arr[index - 1] : null; // 맨 위가 아닐 경우 이전 아이템 할당
-          nextCard = index < arr.length - 1 ? arr[index + 1] : null; // 맨 아래가 아닐 경우 다음 아이템 할당
-        }
-      });
-
-      if (!prevCard && nextCard) targetCard.pos = nextCard.dataset.pos / 2;
-      // 자리가 맨 위일 경우
-      else if (prevCard && nextCard)
-        targetCard.pos = prevCard.dataset.pos / 2 + nextCard.dataset.pos / 2;
-      else if (prevCard && !nextCard) targetCard.pos = prevCard.dataset.pos * 2; // 자리가 맨 아래일 경우
-
-      this.UPDATE_CARD(targetCard);
-    });
+    this.setCardDraggable();
   },
   methods: {
     ...mapActions({
@@ -94,6 +63,38 @@ export default {
       this.FETCH_BOARD({ id: this.bid }).then(() => {
         this.isLoading = false;
         console.log("board", this.board);
+      });
+    },
+    setCardDraggable() {
+      if (this.dragulaCard) this.dragulaCard.destroy();
+
+      this.dragulaCard = dragger.init(
+        Array.from(this.$el.querySelectorAll(".card-list"))
+      );
+
+      this.dragulaCard.on("drop", (el, target, source, sibling) => {
+        // 이벤트 리스너 등록(el은 드래그하는 요소, target은 위에서 등록한 리스트)
+        const targetCard = {
+          id: el.dataset.cardId * 1,
+          pos: 65535
+        }; // api업데이트시 쓰일 객체 생성
+
+        const { prev, next } = dragger.setSiblings({
+          el,
+          target,
+          items: target.querySelectorAll(".card-item"),
+          type: "card"
+        });
+
+        // 자리가 맨 위일 경우
+        if (!prev && next) targetCard.pos = next.dataset.pos / 2;
+        // 자리가 사이일 경우
+        else if (prev && next)
+          targetCard.pos = prev.dataset.pos / 2 + next.dataset.pos / 2;
+        // 자리가 맨 아래일 경우
+        else if (prev && !next) targetCard.pos = prev.dataset.pos * 2;
+
+        this.UPDATE_CARD(targetCard);
       });
     }
   }
