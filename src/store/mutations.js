@@ -29,6 +29,9 @@ const mutations = {
   },
   SET_CARD(state, payload) {
     state.card = payload;
+  },
+  SET_IS_SHOW_BOARD_SETTINGS(state, toggle) {
+    state.isShowBoardSettings = toggle;
   }
 };
 
