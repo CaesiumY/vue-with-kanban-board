@@ -1,5 +1,5 @@
 <template>
-  <div class="board-menu" v-click-outside="onClose">
+  <div class="board-menu">
     <div class="board-menu-header">
       <div class="header-title">Menu</div>
       <a href="" class="header-close-btn" @click.prevent="onClose">&times;</a>
@@ -33,6 +33,7 @@ export default {
   background-color: #edeff0;
   width: 300px;
   transition: all 0.3s;
+  box-shadow: -5px 0px 3px rgba(0, 0, 0, 0.1);
 }
 
 .board-menu-header {
@@ -50,11 +51,16 @@ export default {
 
 .header-close-btn {
   position: absolute;
-  top: 10px;
+  top: 5px;
   right: 10px;
   text-decoration: none;
-  font-size: 24px;
+  font-size: 26px;
   color: #999;
+}
+
+.header-close-btn:hover,
+.header-close-btn:focus {
+  color: #000;
 }
 
 .menu-list {
