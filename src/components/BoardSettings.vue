@@ -5,20 +5,38 @@
       <a href="" class="header-close-btn" @click.prevent="onClose">&times;</a>
     </div>
     <ul class="menu-list">
-      <li>Menu 1</li>
+      <li>
+        <a class="delete-btn" @click.prevent="onDeleteBoard">Delete Board</a>
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 export default {
+  computed: {
+    ...mapState({
+      board: "board"
+    })
+  },
   methods: {
+    ...mapActions({
+      DELETE_BOARD: "DELETE_BOARD"
+    }),
     ...mapMutations({
       SET_IS_SHOW_BOARD_SETTINGS: "SET_IS_SHOW_BOARD_SETTINGS"
     }),
     onClose() {
       this.SET_IS_SHOW_BOARD_SETTINGS(false);
+    },
+    onDeleteBoard() {
+      if (!window.confirm(`Are you sure to Delete ${this.board.title}?`))
+        return;
+
+      this.DELETE_BOARD({ id: this.board.id }).then(() => {
+        this.$router.push("/");
+      });
     }
   }
 };
@@ -68,7 +86,8 @@ export default {
   padding-left: 0px;
 }
 
-.menu-list li {
+.menu-list li * {
+  display: block;
   height: 18px;
   line-height: 18px;
   padding: 10px;
@@ -81,14 +100,18 @@ export default {
   cursor: pointer;
 }
 
-.menu-list li:hover,
-.menu-list li:focus {
+.menu-list li *:hover,
+.menu-list li *:focus {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
 .menu-list li a {
   text-decoration: none;
   color: inherit;
+}
+
+.menu-list li .delete-btn {
+  color: red;
 }
 
 .color-picker {
