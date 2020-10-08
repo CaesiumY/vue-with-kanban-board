@@ -33,6 +33,12 @@
           data-color="rgb(176, 70, 50)"
           @click.prevent="onChangeTheme"
         ></a>
+        <a
+          href=""
+          data-color="palevioletred"
+          @click.prevent="onChangeTheme"
+        ></a>
+        <a href="" data-color="skyblue" @click.prevent="onChangeTheme"></a>
       </div>
     </ul>
   </div>
