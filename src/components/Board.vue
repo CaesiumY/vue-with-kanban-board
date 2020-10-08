@@ -56,6 +56,9 @@ export default {
       isShowBoardSettings: "isShowBoardSettings"
     })
   },
+  watch: {
+    bodyColor: "setBodyTheme"
+  },
   created() {
     this.fetchData().then(() => {
       this.setBodyTheme(this.board.bgColor);

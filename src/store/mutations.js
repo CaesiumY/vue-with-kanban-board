@@ -16,7 +16,7 @@ const mutations = {
   },
   SET_THEME(state, color) {
     state.bodyColor = color || "#fff";
-    state.navColor = color ? "rgba(0, 0, 0, 0.15)" : "#026aa7";
+    state.navColor = color != "#fff" ? "rgba(0, 0, 0, 0.15)" : "#026aa7";
   },
   SET_ADD_BOARD_SHOW(state, payload) {
     state.isAddBoardShow = payload;

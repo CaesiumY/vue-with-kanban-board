@@ -19,9 +19,13 @@ export default {
   name: "navBar",
   computed: {
     ...mapState({
-      navColor: "navColor"
+      navColor: "navColor",
+      bodyColor: "bodyColor"
     }),
     ...mapGetters(["isAuth"])
+  },
+  watch: {
+    bodyColor: "setTheme"
   },
   mounted() {
     this.setTheme();
