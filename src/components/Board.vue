@@ -180,12 +180,11 @@ export default {
   font-size: 14px;
   position: absolute;
   right: 15px;
-  text-decoration: none;
 }
 
 .show-menu:hover,
 .show-menu:focus {
-  text-decoration: underline;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .list-section-wrapper {

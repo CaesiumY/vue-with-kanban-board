@@ -8,6 +8,32 @@
       <li>
         <a class="delete-btn" @click.prevent="onDeleteBoard">Delete Board</a>
       </li>
+      <li>
+        <span>Change Background</span>
+      </li>
+
+      <div class="color-picker">
+        <a
+          href=""
+          data-color="rgb(0, 121, 191)"
+          @click.prevent="onChangeTheme"
+        ></a>
+        <a
+          href=""
+          data-color="rgb(210, 144, 52)"
+          @click.prevent="onChangeTheme"
+        ></a>
+        <a
+          href=""
+          data-color="rgb(81, 152, 57)"
+          @click.prevent="onChangeTheme"
+        ></a>
+        <a
+          href=""
+          data-color="rgb(176, 70, 50)"
+          @click.prevent="onChangeTheme"
+        ></a>
+      </div>
     </ul>
   </div>
 </template>
@@ -20,12 +46,19 @@ export default {
       board: "board"
     })
   },
+  mounted() {
+    document.querySelectorAll(".color-picker a").forEach(item => {
+      item.style.backgroundColor = item.dataset.color;
+    });
+  },
   methods: {
     ...mapActions({
-      DELETE_BOARD: "DELETE_BOARD"
+      DELETE_BOARD: "DELETE_BOARD",
+      UPDATE_BOARD: "UPDATE_BOARD"
     }),
     ...mapMutations({
-      SET_IS_SHOW_BOARD_SETTINGS: "SET_IS_SHOW_BOARD_SETTINGS"
+      SET_IS_SHOW_BOARD_SETTINGS: "SET_IS_SHOW_BOARD_SETTINGS",
+      SET_THEME: "SET_THEME"
     }),
     onClose() {
       this.SET_IS_SHOW_BOARD_SETTINGS(false);
@@ -37,6 +70,12 @@ export default {
       this.DELETE_BOARD({ id: this.board.id }).then(() => {
         this.$router.push("/");
       });
+    },
+    onChangeTheme(e) {
+      const bgColor = e.target.dataset.color;
+      this.UPDATE_BOARD({ id: this.board.id, bgColor }).then(() =>
+        this.SET_THEME(bgColor)
+      );
     }
   }
 };
@@ -49,7 +88,7 @@ export default {
   top: 0;
   height: 100%;
   background-color: #edeff0;
-  width: 300px;
+  width: 310px;
   transition: all 0.3s;
   box-shadow: -5px 0px 3px rgba(0, 0, 0, 0.1);
 }
@@ -115,7 +154,7 @@ export default {
 }
 
 .color-picker {
-  margin: 0 15px;
+  margin: 15px;
 }
 
 .color-picker a {
@@ -123,5 +162,10 @@ export default {
   width: 49%;
   height: 100px;
   border-radius: 8px;
+}
+
+.color-picker a:hover,
+.color-picker a:focus {
+  opacity: 0.8;
 }
 </style>

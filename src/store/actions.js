@@ -18,6 +18,11 @@ const actions = {
   DELETE_BOARD(_, { id }) {
     return board.delete(id);
   },
+  UPDATE_BOARD({ dispatch, state }, { id, title, bgColor }) {
+    return board.update(id, { title, bgColor }).then(() => {
+      dispatch("FETCH_BOARD", { id: state.board.id });
+    });
+  },
   ADD_CARD({ dispatch, state }, { title, listId, pos }) {
     return card.create(title, listId, pos).then(res => {
       dispatch("FETCH_BOARD", { id: state.board.id });
