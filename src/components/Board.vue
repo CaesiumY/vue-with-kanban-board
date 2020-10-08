@@ -3,7 +3,16 @@
     <div class="board-wrapper">
       <div class="board">
         <div class="board-header">
-          <span class="board-title">{{ board.title }}</span>
+          <input
+            type="text"
+            class="board-title"
+            :readonly="!isEditTitle"
+            :value="board.title"
+            @click="isEditTitle = true"
+            @blur="onSubmitTitle"
+            @keyup.enter="onSubmitTitle"
+            ref="inputTitle"
+          />
           <a
             href=""
             class="board-header-btn show-menu"
@@ -46,7 +55,8 @@ export default {
     return {
       bid: 0,
       isLoading: true,
-      dragulaCard: null
+      dragulaCard: null,
+      isEditTitle: false
     };
   },
   computed: {
@@ -74,7 +84,8 @@ export default {
     }),
     ...mapActions({
       FETCH_BOARD: "FETCH_BOARD",
-      UPDATE_CARD: "UPDATE_CARD"
+      UPDATE_CARD: "UPDATE_CARD",
+      UPDATE_BOARD: "UPDATE_BOARD"
     }),
     setBodyTheme(color) {
       this.SET_THEME(color);
@@ -88,6 +99,14 @@ export default {
         this.isLoading = false;
         console.log("board", this.board);
       });
+    },
+    onSubmitTitle(e) {
+      const title = e.target.value.trim();
+      this.isEditTitle = false;
+
+      if (!title || title === this.board.title) return;
+
+      this.UPDATE_BOARD({ id: this.board.id, title });
     },
     setCardDraggable() {
       if (this.dragulaCard) this.dragulaCard.destroy();
@@ -177,6 +196,13 @@ export default {
 .board-title {
   font-weight: 700;
   font-size: 18px;
+}
+
+.board-title:read-only {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
 }
 
 .show-menu {
