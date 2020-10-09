@@ -1,14 +1,22 @@
 <template>
   <div class="list">
     <div class="list-header">
-      <div class="list-header-title">{{ data.title }}</div>
+      <input
+        type="text"
+        class="list-header-title"
+        :value="data.title"
+        :readonly="!isShowInputTitle"
+        @click="onShowInputTitle"
+        @blur="onBlurInputTitle"
+        @keyup.enter="onSubmitInputTitle"
+      />
     </div>
 
     <div class="card-list">
       <CardItem v-for="card in data.cards" :key="card.id" :data="card" />
     </div>
 
-    <div v-if="isAddCardShow">
+    <div v-if="isShowAddCard">
       <AddCard :listId="data.id" @close="close" />
     </div>
     <div v-else>
@@ -20,6 +28,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import AddCard from "./AddCard";
 import CardItem from "./CardItem";
 
@@ -31,15 +40,34 @@ export default {
   props: ["data"],
   data() {
     return {
-      isAddCardShow: false
+      isShowAddCard: false,
+      isShowInputTitle: false
     };
   },
   methods: {
+    ...mapActions({
+      UPDATE_LIST: "UPDATE_LIST"
+    }),
     close() {
-      this.isAddCardShow = false;
+      this.isShowAddCard = false;
     },
     open() {
-      this.isAddCardShow = true;
+      this.isShowAddCard = true;
+    },
+    onShowInputTitle() {
+      this.isShowInputTitle = true;
+    },
+    onBlurInputTitle() {
+      this.isShowInputTitle = false;
+    },
+    onSubmitInputTitle(e) {
+      const title = e.target.value.trim();
+
+      if (!title || title === this.data.title) return this.onBlurInputTitle();
+
+      this.UPDATE_LIST({ id: this.data.id, title }).then(() =>
+        this.onBlurInputTitle()
+      );
     }
   }
 };
@@ -69,6 +97,13 @@ export default {
   font-weight: 700;
   padding-left: 8px;
   line-height: 30px;
+}
+
+.list-header-title:read-only {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
 }
 
 .input-title {

@@ -9,6 +9,7 @@
           :readonly="!isInputTitle"
           @click="isInputTitle = true"
           @blur="onBlurTitle"
+          @keyup.enter="onBlurTitle"
           ref="inputTitle"
         />
       </div>
@@ -102,6 +103,7 @@ export default {
 .modal-card-header-title input:read-only {
   background-color: #fff;
   border: none;
+  outline: none;
   font-size: 20px;
   cursor: pointer;
 }
