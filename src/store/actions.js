@@ -1,4 +1,4 @@
-import { auth, board, card } from "../api";
+import { auth, board, card, list } from "../api";
 
 const actions = {
   SET_LOGIN({ commit }, { email, password }) {
@@ -20,6 +20,16 @@ const actions = {
   },
   UPDATE_BOARD({ dispatch, state }, { id, title, bgColor }) {
     return board.update(id, { title, bgColor }).then(() => {
+      dispatch("FETCH_BOARD", { id: state.board.id });
+    });
+  },
+  ADD_LIST({ dispatch, state }, { title, boardId, pos }) {
+    return list.create({ title, boardId, pos }).then(() => {
+      dispatch("FETCH_BOARD", { id: state.board.id });
+    });
+  },
+  UPDATE_LIST({ dispatch, state }, { id, title, pos }) {
+    return list.update(id, { title, pos }).then(() => {
       dispatch("FETCH_BOARD", { id: state.board.id });
     });
   },
