@@ -106,7 +106,6 @@ export default {
 
       return this.FETCH_BOARD({ id: this.bid }).then(() => {
         this.isLoading = false;
-        console.log("board", this.board);
       });
     },
     onSubmitTitle(e) {
@@ -151,7 +150,6 @@ export default {
         else if (prev && !next) targetCard.pos = prev.dataset.pos * 2;
 
         this.UPDATE_CARD(targetCard);
-        console.log("setCardDraggable -> targetCard", targetCard);
       });
     },
     setListDraggable() {

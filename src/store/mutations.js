@@ -6,8 +6,6 @@ const mutations = {
     state.token = token;
     localStorage.setItem(AUTH_TOKEN, token);
     setAuthInHeader(token);
-
-    console.log("login");
   },
   LOGOUT(state) {
     state.token = null;
