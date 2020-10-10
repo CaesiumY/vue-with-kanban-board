@@ -2,10 +2,13 @@ import dragula from "dragula";
 import "dragula/dist/dragula.min.css";
 
 const dragger = {
-  init(target) {
-    return dragula([
-      ...target // 해당 리스트의 아이템을 드래그 가능하게 만듦
-    ]);
+  init(target, options) {
+    return dragula(
+      [
+        ...target // 해당 리스트의 아이템을 드래그 가능하게 만듦
+      ],
+      options
+    );
   },
   setSiblings({ el, target, items, type }) {
     // 계산에 사용할 앞과 뒤의 카드 선언

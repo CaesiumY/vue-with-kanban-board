@@ -1,5 +1,5 @@
 <template>
-  <div class="list">
+  <div class="list" :data-list-id="data.id" :data-pos="data.pos">
     <div class="list-header">
       <input
         type="text"
@@ -121,7 +121,8 @@ export default {
 
 .card-list {
   flex: 1 1 auto;
-  overflow-y: scroll;
+  overflow-y: auto;
+  min-height: 6px;
 }
 
 .empty-card-item {

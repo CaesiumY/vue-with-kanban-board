@@ -26,11 +26,12 @@
             <div
               class="list-wrapper"
               v-for="list in board.lists"
-              :key="list.pos"
+              :key="list.id"
+              :data-list-id="list.id"
             >
               <List :data="list" />
             </div>
-            <div class="list-wrapper">
+            <div class="list-wrapper undraggable">
               <AddList />
             </div>
           </div>
@@ -61,6 +62,7 @@ export default {
       bid: 0,
       isLoading: true,
       dragulaCard: null,
+      dragulaList: null,
       isEditTitle: false
     };
   },
@@ -81,6 +83,7 @@ export default {
   },
   updated() {
     this.setCardDraggable();
+    this.setListDraggable();
   },
   methods: {
     ...mapMutations({
@@ -90,7 +93,8 @@ export default {
     ...mapActions({
       FETCH_BOARD: "FETCH_BOARD",
       UPDATE_CARD: "UPDATE_CARD",
-      UPDATE_BOARD: "UPDATE_BOARD"
+      UPDATE_BOARD: "UPDATE_BOARD",
+      UPDATE_LIST: "UPDATE_LIST"
     }),
     setBodyTheme(color) {
       this.SET_THEME(color);
@@ -116,14 +120,18 @@ export default {
     setCardDraggable() {
       if (this.dragulaCard) this.dragulaCard.destroy();
 
+      const options = {};
+
       this.dragulaCard = dragger.init(
-        Array.from(this.$el.querySelectorAll(".card-list"))
+        Array.from(this.$el.querySelectorAll(".card-list")),
+        options
       );
 
       this.dragulaCard.on("drop", (el, target, source, sibling) => {
         // 이벤트 리스너 등록(el은 드래그하는 요소, target은 위에서 등록한 리스트)
         const targetCard = {
           id: el.dataset.cardId * 1,
+          listId: target.parentNode.dataset.listId * 1,
           pos: 65535
         }; // api업데이트시 쓰일 객체 생성
 
@@ -143,6 +151,46 @@ export default {
         else if (prev && !next) targetCard.pos = prev.dataset.pos * 2;
 
         this.UPDATE_CARD(targetCard);
+        console.log("setCardDraggable -> targetCard", targetCard);
+      });
+    },
+    setListDraggable() {
+      if (this.dragulaList) this.dragulaList.destroy();
+
+      const options = {
+        invalid: (el, handle) => {
+          return !/^list/.test(handle.className); // 클릭한 요소(handle)의 클래스가 list로 시작하는지 test()해서 true false 반환
+        }
+      };
+
+      this.dragulaList = dragger.init(
+        Array.from(this.$el.querySelectorAll(".list-section")),
+        options
+      );
+
+      this.dragulaList.on("drop", (el, target, source, sibling) => {
+        // 이벤트 리스너 등록(el은 드래그하는 요소, target은 위에서 등록한 리스트)
+        const targetList = {
+          id: el.dataset.listId * 1,
+          pos: 65535
+        }; // api업데이트시 쓰일 객체 생성
+
+        const { prev, next } = dragger.setSiblings({
+          el,
+          target,
+          items: target.querySelectorAll(".list"),
+          type: "list"
+        });
+
+        // 자리가 맨 위일 경우
+        if (!prev && next) targetList.pos = next.dataset.pos / 2;
+        // 자리가 사이일 경우
+        else if (prev && next)
+          targetList.pos = prev.dataset.pos / 2 + next.dataset.pos / 2;
+        // 자리가 맨 아래일 경우
+        else if (prev && !next) targetList.pos = prev.dataset.pos * 2;
+
+        this.UPDATE_LIST(targetList);
       });
     },
     onShowBoardSettings() {
@@ -240,7 +288,6 @@ export default {
 
 .list-wrapper {
   display: inline-block;
-  height: 100%;
   width: 272px;
   vertical-align: top;
   margin-right: 5px;
