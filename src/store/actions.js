@@ -33,6 +33,11 @@ const actions = {
       dispatch("FETCH_BOARD", { id: state.board.id });
     });
   },
+  DELETE_LIST({ dispatch, state }, { id }) {
+    return list.delete(id).then(() => {
+      dispatch("FETCH_BOARD", { id: state.board.id });
+    });
+  },
   ADD_CARD({ dispatch, state }, { title, listId, pos }) {
     return card.create(title, listId, pos).then(res => {
       dispatch("FETCH_BOARD", { id: state.board.id });

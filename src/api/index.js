@@ -50,6 +50,9 @@ export const list = {
   },
   update(id, payload) {
     return request("put", `/lists/${id}`, payload);
+  },
+  delete(id) {
+    return request("delete", `/lists/${id}`);
   }
 };
 

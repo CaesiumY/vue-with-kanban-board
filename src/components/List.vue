@@ -10,6 +10,9 @@
         @blur="onBlurInputTitle"
         @keyup.enter="onSubmitInputTitle"
       />
+      <a href="" class="delete-list-btn" @click.prevent="onDeleteList"
+        >&times;</a
+      >
     </div>
 
     <div class="card-list">
@@ -46,7 +49,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      UPDATE_LIST: "UPDATE_LIST"
+      UPDATE_LIST: "UPDATE_LIST",
+      DELETE_LIST: "DELETE_LIST"
     }),
     close() {
       this.isShowAddCard = false;
@@ -68,6 +72,12 @@ export default {
       this.UPDATE_LIST({ id: this.data.id, title }).then(() =>
         this.onBlurInputTitle()
       );
+    },
+    onDeleteList() {
+      if (!window.confirm(`Are you sure to delete ${this.data.title} list?`))
+        return;
+
+      this.DELETE_LIST({ id: this.data.id });
     }
   }
 };
@@ -113,10 +123,15 @@ export default {
 .delete-list-btn {
   position: absolute;
   right: 10px;
-  top: 8px;
+  top: 5px;
   text-decoration: none;
   color: #aaa;
   font-size: 24px;
+}
+
+.delete-list-btn:hover,
+.delete-list-btn:focus {
+  color: #000;
 }
 
 .card-list {
