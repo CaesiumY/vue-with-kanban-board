@@ -8,14 +8,16 @@
   - [📷Screenshots](#screenshots)
 
 ## 💻Demo
-
-[준비중...]()
+<details>
+    <summary>GIF Demo</summary>    
+    <img src='./screenshots/demo.gif' alt="gif 데모 이미지">
+</details>
 
 ## 📷Screenshots
 
 <details>
     <summary>Home</summary>
-    <img src='./screenshots/home.png'>
+    <img src='./screenshots/main_home.png'>
 </details>
 
 <details>
@@ -24,16 +26,11 @@
 </details>
 
 <details>
-    <summary>Create Board</summary>
-    <img src='./screenshots/create_board.png'>
-</details>
-
-<details>
     <summary>Board</summary>
-    <img src='./screenshots/board.png'>
+    <img src='./screenshots/board2.png'>
 </details>
 
 <details>
     <summary>Card</summary>
-    <img src='./screenshots/card.png'>
+    <img src='./screenshots/card2.png'>
 </details>
