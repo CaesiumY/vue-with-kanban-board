@@ -44,7 +44,7 @@
 3. clone backend repo - `https://github.com/jeonghwan-kim/lecture-vue-trello-server.git`
 4. run command to start backend - `npm run dev`
 5. Refresh frontend page
-6. PROFIT!
+6. **PROFIT!**
 
 ## 🎐Features
 `Read` is always possible, of course.
@@ -71,3 +71,10 @@
   - [x] Logout
   - [x] Remember Login
     - Watch out! tokens will be stored in your `local storage`
+
+
+## 🛴Further
+
+- [ ] Move `Auth token` from `local storage` to `cookie`.
+- [ ] Make drag more smooth.
+- What else?
