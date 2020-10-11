@@ -39,10 +39,10 @@
 
 ## 🔰How to Start?
 
-1. clone this project - `https://github.com/CaesiumY/vue-with-kanban-board.git`
+1. clone this project - `git clone https://github.com/CaesiumY/vue-with-kanban-board.git`
 2. Install frontend packages - `npm install`
 3. run command to start - `npm start`
-4. clone backend repo - `https://github.com/jeonghwan-kim/lecture-vue-trello-server.git`
+4. clone backend repo - `git clone https://github.com/jeonghwan-kim/lecture-vue-trello-server.git`
 5. Install backend packages - `npm install`
 6. run command to start backend - `npm run dev`
 7. Refresh frontend page
